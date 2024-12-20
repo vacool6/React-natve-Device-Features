@@ -3,18 +3,26 @@ import { TextInput } from "react-native-gesture-handler";
 
 import ImagePicker from "../ImagePicker";
 import LocationPicker from "../LocationPicker";
+import { usePosition } from "../../context/locationContext";
+import CustomBtn from "../CustomBtn";
 
 const AddFavPlace = () => {
+  const { title, setTitle, submitHandler } = usePosition();
   return (
     <ScrollView style={styles.container}>
       <Text>Title</Text>
-      <TextInput style={styles.input} />
+      <TextInput
+        style={styles.input}
+        value={title}
+        onChangeText={(e) => setTitle(e)}
+      />
       <View style={styles.imgContainer}>
         <ImagePicker />
       </View>
       <View style={styles.locationContainer}>
         <LocationPicker />
       </View>
+      <CustomBtn title="Submit" onPress={submitHandler} />
     </ScrollView>
   );
 };

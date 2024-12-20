@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import CustomBtn from "./CustomBtn";
 import {
   useForegroundPermissions,
@@ -15,12 +15,11 @@ import Constants from "expo-constants";
 const LocationPicker = () => {
   const [locationPermission, requestPermission] = useForegroundPermissions();
   const { coordinates, uriMap, setUriMap, setCoordinates } = usePosition();
-  const { apiKey, mapStyle } = Constants.expoConfig.extra;
+  const { apiKey, apiEndpoint, mapStyle } = Constants.expoConfig.extra;
 
   const navigator = useNavigation();
 
   async function locateMe() {
-    console.log(locationPermission);
     const hasPermission = await verifyPermission(
       locationPermission,
       PermissionStatus,
@@ -30,8 +29,11 @@ const LocationPicker = () => {
     if (!hasPermission) return;
 
     const location = await getCurrentPositionAsync();
-    console.log(location.coords.latitude, location.coords.longitude);
-    setCoordinates(location.coords.latitude, location.coords.longitude);
+
+    setCoordinates({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
   }
 
   async function pickOnMap() {
@@ -39,8 +41,8 @@ const LocationPicker = () => {
     navigator.navigate("Map");
   }
 
-  const getStaticMapImageUrl = (latitude, longitude, zoom = 15) => {
-    const url = `https://maps.geoapify.com/v1/staticmap?style=${mapStyle}&center=lonlat:${longitude},${latitude}&zoom=${zoom}&apiKey=${apiKey}`;
+  const getStaticMapImageUrl = (latitude, longitude, zoom = 14) => {
+    const url = `https://maps.${apiEndpoint}/staticmap?style=${mapStyle}&center=lonlat:${longitude},${latitude}&zoom=${zoom}&apiKey=${apiKey}`;
     setUriMap(url);
   };
 
