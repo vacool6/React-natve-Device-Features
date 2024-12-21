@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     padding: 8,
+    borderWidth: 2,
   },
   text: {
     textAlign: "center",

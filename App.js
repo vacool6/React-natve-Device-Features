@@ -8,15 +8,45 @@ import AddFavPlace from "./components/screens/AddFavPlace";
 import NavigatorBtn from "./components/NavigatorBtn";
 import Map from "./components/screens/Map";
 import LocationProvider from "./context/locationContext";
+import AppLoading from "expo-app-loading";
+import { useEffect, useState } from "react";
+import { init } from "./utils/database";
+import PlaceDetails from "./components/screens/PlaceDetails";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [dbInitialized, setDBInitialize] = useState(false);
+
+  useEffect(() => {
+    const initializeDatabase = async () => {
+      try {
+        await init();
+        setDBInitialize(true);
+      } catch (err) {
+        console.log("Error >", err);
+      }
+    };
+
+    initializeDatabase();
+  }, []);
+
+  if (!dbInitialized) {
+    return <AppLoading />;
+  }
+
   return (
     <LocationProvider>
       <NavigationContainer theme={MyTheme}>
-        <StatusBar />
-        <Stack.Navigator>
+        <StatusBar style="light" />
+        <Stack.Navigator
+          screenOptions={{
+            headerTintColor: "pink",
+            headerStyle: {
+              backgroundColor: "grey",
+            },
+          }}
+        >
           <Stack.Screen
             name="YourPlaces"
             component={AllPlaces}
@@ -47,6 +77,7 @@ export default function App() {
               },
             }}
           />
+          <Stack.Screen name="PlaceDetails" component={PlaceDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </LocationProvider>

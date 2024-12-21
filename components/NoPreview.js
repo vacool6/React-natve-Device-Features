@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     justifyContent: "center",
     opacity: 0.5,
+    borderWidth: 1,
   },
   text: {
     textAlign: "center",

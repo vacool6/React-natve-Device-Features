@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    borderWidth: 2,
+    borderWidth: 1,
   },
   imgContainer: {
     marginTop: 4,

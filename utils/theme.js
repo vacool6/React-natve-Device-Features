@@ -4,6 +4,6 @@ export const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: "white",
+    background: "#d4d5d0",
   },
 };
