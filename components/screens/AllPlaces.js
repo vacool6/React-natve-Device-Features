@@ -7,18 +7,22 @@ import {
   Pressable,
 } from "react-native";
 import { getAllPlaces } from "../../utils/database";
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AllPlaces = ({ navigation }) => {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchAllPlaces = async () => {
-      const result = await getAllPlaces();
-      setData(result);
-    };
-    fetchAllPlaces();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchAllPlacesOnFocus = async () => {
+        const result = await getAllPlaces();
+        setData(result);
+      };
+
+      fetchAllPlacesOnFocus();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
